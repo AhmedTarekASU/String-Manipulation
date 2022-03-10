@@ -79,3 +79,37 @@ char *stringTokenReplace(char *str, char *token, const unsigned int REPLACE_BY_N
     }
     return OUTPUT_STRING;
 }
+
+char *integerToString(int number)
+{
+    /*DYNAMICALLY ALLOCATE THE OUTPUT STRING USING calloc() WITH SIZE 1*/
+    char *OUTPUT_STRING = calloc(1,sizeof(char));
+    /*CHECK IF THE NUMBER IS A NEGATIVE NUMBER*/
+    if(number<0)        //IF NUMBER IS NEGATIVE THEN PLACE A NEGATIVE IN THE FIRST LOCATION
+    {
+        OUTPUT_STRING[0] = '-';
+        OUTPUT_STRING = realloc(OUTPUT_STRING, 2*sizeof(char));
+    }
+    int i = number<0? 1:0;  //TO KNOW WHETHER TO ACCESS THE FIRST LOCATION OR NOT
+    /*CHECK HOW MANY DIGITS ARE IN THE GIVEN NUMBER*/
+    int q = number>=0? number:(-1)*number;      //SET q = ABSOLUTE(number)
+    int DIGITS = 0;
+    while(q>0)
+    {
+        q = q/10;
+        DIGITS++;
+    }
+    q = number>=0? number:(-1)*number;      //RESET q AS WE WILL USE IT LATER
+    /*REALLOCATE THE OUTPUT STRING TO THE PROPER SIZE TO CONTAIN THE DIGITS*/
+    OUTPUT_STRING = realloc(OUTPUT_STRING, (DIGITS+i)*sizeof(char));
+    /*CALCULATE THE LENGTH OF THE OUTPUT STRING*/
+    int OUTPUT_LENGTH = DIGITS + i;
+    /*PLACE THE DIGITS IN THE OUTPUT STRING*/
+    for(int j=OUTPUT_LENGTH-1; j>=i; j--)
+    {
+        char TEMP = q%10 + '0';
+        OUTPUT_STRING[j] = TEMP;
+        q = q/10;
+    }
+    return OUTPUT_STRING;
+}
