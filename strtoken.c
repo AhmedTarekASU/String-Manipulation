@@ -41,67 +41,41 @@ char *stringByToken(char *str, char *token, const unsigned int NSC, const unsign
     return OUTPUT_STRING;                               //RETURN THE ADDRESS OF THE OUTPUT STRING
 }
 
-char* token_replace_nth(char* token, char* s, int n)
+char *stringTokenReplace(char *str, char *token, const unsigned int REPLACE_BY_N)
 {
-    int len_s = strlen(s);
-    int len_t = strlen(token);
-    int size;
-    if(len_s<(n*len_t))
-        size = len_s + (len_t-(len_s/n));
-    else
-        size = len_s;
-    char* out;
-    out = malloc(size*sizeof(char));
-    int flag = 0; int j = 0;
+    /*DECLARE AND DEFINE THE LENGTHS OF THE STRING AND THE TOKEN*/
+    int STRING_LENGTH = strlen(str);
+    int TOKEN_LENGTH = strlen(token);
 
-    if(len_s>=(n*len_t))
+    /*CALCULATE THE LENGTH OF THE OUTPUT STRING*/
+    int OUTPUT_LENGTH;
+    int q = STRING_LENGTH/(REPLACE_BY_N+1);
+    int R = STRING_LENGTH%(REPLACE_BY_N+1);
+    OUTPUT_LENGTH = q*(REPLACE_BY_N+1)+R+(TOKEN_LENGTH-q);
+
+    /*DECLARE AND DEFINE TOKEN POINTER AND STRING CHARACTER COUNTER*/
+    int TOKEN_POINTER = 0;
+    int COUNTER = 0;
+
+    /*DYNAMICALLY ALLOCATE THE OUTPUT STRING USING calloc() TO INITIALIZE IT*/
+    char *OUTPUT_STRING = calloc(OUTPUT_LENGTH, sizeof(char));
+
+    /*FILL THE OUTPUT STRING WITH THE PROPER VALUES*/
+    for(int i=0; i<OUTPUT_LENGTH;)
     {
-        for(int i=0; i<size; i++)
+        while((COUNTER<REPLACE_BY_N)&&(i<STRING_LENGTH))
         {
-            if(j<len_t)
-            {
-                if(flag<(n-1))
-                {
-                    out[i] = s[i];
-                    flag++;
-                }
-                else
-                {
-                    out[i] = token[j];
-                    flag = 0;
-                    j++;
-                }
-            }
-            else
-            {
-                out[i] = s[i];
-            }
+            OUTPUT_STRING[i] = str[i];
+            COUNTER++;
+            i++;
+        }
+        COUNTER = 0;
+        if(TOKEN_POINTER<TOKEN_LENGTH)
+        {
+            OUTPUT_STRING[i] = token[TOKEN_POINTER];
+            TOKEN_POINTER++;
+            i++;
         }
     }
-    else
-    {
-        for(int i=0; i<size; i++)
-        {
-            if(i<len_s)
-            {
-                if(flag<(n-1))
-                {
-                    out[i] = s[i];
-                    flag++;
-                }
-                else
-                {
-                    out[i] = token[j];
-                    flag = 0;
-                    j++;
-                }
-            }
-            else
-            {
-                out[i] = token[j];
-                j++;
-            }
-        }
-    }
-    return out;
+    return OUTPUT_STRING;
 }

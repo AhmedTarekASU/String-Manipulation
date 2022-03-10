@@ -9,13 +9,13 @@ First function is  : char *stringByToken(char *str, char *token, const unsigned 
 		OUTPUT = "AAABBAAABBAAABBA"
 			     ^    ^    ^
 
-Second Function is : char* token_replace_nth(char* token, char* s, int n)
+Second Function is : char* stringTokenReplace(char* token, char* s, int REPLACE_BY_N)
 
-	it is used to replace a character from a string by a character from a token each (n) characters written from the string
+	it is used to replace a character from a string by a character from a token each (REPLACE_BY_N) characters written from the string
 	Example:
 		Suppose string = "ABCDEFGHIJ"
 		And  a  TOKEN  = "123"
-		If n = 3 then each 2 characters written from the string their 3rd Character is replaced by one from the Token
+		If n = 2 then each 2 characters written from the string their 3rd Character is replaced by one from the Token
 		Then the output is 
 		OUTPUT = "AB1DE2GH3J"
 			    ^  ^  ^
